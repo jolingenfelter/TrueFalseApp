@@ -41,8 +41,9 @@ class ViewController: UIViewController {
     }
     
     func displayQuestion() {
-        let questionDictionary = triviaModel.getRandomQuestion()
-        questionField.text = questionDictionary["Question"]
+        let randomlySelectedQuestionIndex = GKRandomSource.sharedRandom().nextIntWithUpperBound(questionsArray.count)
+        let question = questionsArray[randomlySelectedQuestionIndex];
+        questionField.text = question.question
         playAgainButton.hidden = true
     }
     
