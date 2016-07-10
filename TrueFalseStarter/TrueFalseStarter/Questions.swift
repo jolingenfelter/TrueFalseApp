@@ -28,7 +28,7 @@ class Question {
 
 let q1 = Question(question: "Which is the only planet in our solar system that rotates clockwise?", answer: "Venus", choice01: "Venus", choice02: "Jupiter", choice03: "Saturn", choice04: "Uranus")
 
-let q2 = Question(question: "How many noses do slugs have", answer: "4", choice01: "12", choice02: "8", choice03: "22", choice04: "28")
+let q2 = Question(question: "How many noses do slugs have?", answer: "4", choice01: "12", choice02: "8", choice03: "22", choice04: "28")
 
 let q3 = Question(question: "What kind of professional is most frequently late for appointments?", answer: "Doctors", choice01: "Dentists", choice02: "Optomistrists", choice03: "Doctors", choice04: "Phsycologists")
 
