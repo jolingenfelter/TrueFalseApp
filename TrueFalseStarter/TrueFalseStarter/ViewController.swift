@@ -16,6 +16,7 @@ class ViewController: UIViewController {
     var questionsAsked = 0
     var correctQuestions = 0
     var randomlySelectedQuestionIndex : Int = 0
+    var usedQuestionsArray : [Int] = []
     
     let triviaModel = TriviaModel()
     
@@ -49,6 +50,19 @@ class ViewController: UIViewController {
         
         //Question
         randomlySelectedQuestionIndex = GKRandomSource.sharedRandom().nextIntWithUpperBound(questionsArray.count)
+        
+        //Logic to avoid repeating questions 
+        while usedQuestionsArray.contains(randomlySelectedQuestionIndex) {
+            randomlySelectedQuestionIndex = GKRandomSource.sharedRandom().nextIntWithUpperBound(questionsArray.count)
+        }
+        
+        usedQuestionsArray.append(randomlySelectedQuestionIndex)
+        
+        //So the user can still replay after all of the questions have been used
+        if usedQuestionsArray.count == questionsArray.count {
+            usedQuestionsArray = []
+        }
+        
         let question = questionsArray[randomlySelectedQuestionIndex];
         questionField.text = question.question
         playAgainButton.hidden = true
