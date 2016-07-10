@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
@@ -101,6 +102,12 @@
                                     </mask>
                                 </variation>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oa2-dn-OSG">
+                                <rect key="frame" x="166" y="28" width="42" height="20"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="16"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="0.031372549019607843" green="0.16862745098039217" blue="0.24313725490196078" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
@@ -109,11 +116,15 @@
                             <constraint firstItem="AS4-HX-g9f" firstAttribute="top" secondItem="J1V-MS-ECi" secondAttribute="bottom" constant="30" id="3zz-hS-WnE"/>
                             <constraint firstItem="cYh-ZT-b1X" firstAttribute="top" secondItem="AS4-HX-g9f" secondAttribute="bottom" constant="30" id="9JQ-mU-dFm"/>
                             <constraint firstItem="I3V-ih-1Ky" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="30" id="AUj-Jg-wZ1"/>
+                            <constraint firstItem="oa2-dn-OSG" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="8" id="ErI-Q7-nCU"/>
                             <constraint firstItem="I3V-ih-1Ky" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="My9-WA-87w"/>
                             <constraint firstItem="J1V-MS-ECi" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="WVw-3O-8RP"/>
+                            <constraint firstItem="oa2-dn-OSG" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="17" id="Y3S-w4-9oN"/>
                             <constraint firstItem="J1V-MS-ECi" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="150" id="d5S-Eq-Dc2"/>
+                            <constraint firstItem="oa2-dn-OSG" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="8" id="e1V-s4-3Uw"/>
                             <constraint firstItem="AS4-HX-g9f" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="egn-Rt-kHJ"/>
                             <constraint firstItem="ouP-bi-hCw" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="faO-eP-p0c"/>
+                            <constraint firstItem="oa2-dn-OSG" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="gnd-Wk-Op9"/>
                             <constraint firstItem="K17-uy-MvB" firstAttribute="top" secondItem="ouP-bi-hCw" secondAttribute="bottom" constant="50" id="gvD-0w-2b5"/>
                             <constraint firstItem="K17-uy-MvB" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="hbQ-n9-soo"/>
                             <constraint firstItem="ouP-bi-hCw" firstAttribute="top" secondItem="cYh-ZT-b1X" secondAttribute="bottom" constant="30" id="jqV-RP-DPo"/>
@@ -121,6 +132,8 @@
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
+                                <exclude reference="Y3S-w4-9oN"/>
+                                <exclude reference="e1V-s4-3Uw"/>
                                 <exclude reference="34K-Ea-79f"/>
                                 <exclude reference="gvD-0w-2b5"/>
                             </mask>
@@ -135,6 +148,7 @@
                         <outlet property="choice4" destination="ouP-bi-hCw" id="PTG-aX-g0S"/>
                         <outlet property="playAgainButton" destination="K17-uy-MvB" id="0Bx-Cm-ye0"/>
                         <outlet property="questionField" destination="I3V-ih-1Ky" id="7UI-o2-ATi"/>
+                        <outlet property="timerLabel" destination="oa2-dn-OSG" id="M2D-AO-7vw"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

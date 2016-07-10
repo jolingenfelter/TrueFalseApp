@@ -18,20 +18,25 @@ class ViewController: UIViewController {
     var randomlySelectedQuestionIndex : Int = 0
     var usedQuestionsArray : [Int] = []
     
+    // Sound effects
     var gameSound: SystemSoundID = 0
     var wrongAnswerSound: SystemSoundID = 0
     var correctAnswerSound: SystemSoundID = 0
     
     @IBOutlet weak var questionField: UILabel!
     
-    //Buttons
+    // Buttons
     @IBOutlet weak var choice1: UIButton!
     @IBOutlet weak var choice2: UIButton!
     @IBOutlet weak var choice3: UIButton!
     @IBOutlet weak var choice4: UIButton!
-    
     @IBOutlet weak var playAgainButton: UIButton!
     
+    // Timer
+    var timer = NSTimer()
+    var time = 15
+    var timerRunning = false
+    @IBOutlet weak var timerLabel: UILabel!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -73,7 +78,8 @@ class ViewController: UIViewController {
         choice3.setTitle(question.choice03, forState: UIControlState.Normal)
         choice4.setTitle(question.choice04, forState: UIControlState.Normal)
         
-        
+        resetTimerAndButtons()
+        beginTimer()
     }
     
     func displayScore() {
@@ -101,12 +107,16 @@ class ViewController: UIViewController {
             correctQuestions += 1
             questionField.text = "Correct!"
             playCorrectAnswerSound()
+            disableButtons()
+            timer.invalidate()
         } else {
             questionField.text = "Sorry, the correct answer is \(correctAnswer)!"
             playIncorrectAnswerSound()
+            disableButtons()
+            timer.invalidate()
         }
         
-        loadNextRoundWithDelay(seconds: 2)
+        loadNextRoundWithDelay(seconds: 1)
     }
     
     func nextRound() {
@@ -131,6 +141,60 @@ class ViewController: UIViewController {
         nextRound()
     }
     
+    // Timer
+    
+    func beginTimer() {
+        if timerRunning == false {
+            timer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: #selector(ViewController.displayCountDown), userInfo: nil, repeats: true)
+            
+            timerRunning = true
+        }
+    }
+    
+    func displayCountDown() {
+        
+        time -= 1
+        timerLabel.text = "\(time)"
+        
+        if time <= 5 {
+            timerLabel.textColor = UIColor.redColor()
+        }
+        
+        if time == 0 {
+            timer.invalidate()
+            questionField.text = "Time's up!"
+            questionsAsked += 1
+            playIncorrectAnswerSound()
+            disableButtons()
+            loadNextRoundWithDelay(seconds: 1)
+            questionField.textColor = UIColor.redColor()
+            
+        }
+        
+    }
+    
+    func resetTimerAndButtons() {
+        time = 15
+        timerLabel.text = "\(time)"
+        timerRunning = false
+        timerLabel.textColor = UIColor.whiteColor()
+        questionField.textColor = UIColor.whiteColor()
+        enableButtons()
+    }
+    
+    func disableButtons() {
+        choice1.userInteractionEnabled = false
+        choice2.userInteractionEnabled = false
+        choice3.userInteractionEnabled = false
+        choice4.userInteractionEnabled = false
+    }
+    
+    func enableButtons() {
+        choice1.userInteractionEnabled = true
+        choice2.userInteractionEnabled = true
+        choice3.userInteractionEnabled = true
+        choice4.userInteractionEnabled = true
+    }
 
     
     // MARK: Helper Methods
