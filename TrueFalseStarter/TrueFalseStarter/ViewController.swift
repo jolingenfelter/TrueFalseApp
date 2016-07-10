@@ -18,8 +18,6 @@ class ViewController: UIViewController {
     var randomlySelectedQuestionIndex : Int = 0
     var usedQuestionsArray : [Int] = []
     
-    let triviaModel = TriviaModel()
-    
     var gameSound: SystemSoundID = 0
     
     @IBOutlet weak var questionField: UILabel!
@@ -101,7 +99,7 @@ class ViewController: UIViewController {
             correctQuestions += 1
             questionField.text = "Correct!"
         } else {
-            questionField.text = "Sorry, wrong answer!"
+            questionField.text = "Sorry, the correct answer is \(correctAnswer)!"
         }
         
         loadNextRoundWithDelay(seconds: 2)
