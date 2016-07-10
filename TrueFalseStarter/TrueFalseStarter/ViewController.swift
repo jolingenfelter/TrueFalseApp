@@ -19,6 +19,8 @@ class ViewController: UIViewController {
     var usedQuestionsArray : [Int] = []
     
     var gameSound: SystemSoundID = 0
+    var wrongAnswerSound: SystemSoundID = 0
+    var correctAnswerSound: SystemSoundID = 0
     
     @IBOutlet weak var questionField: UILabel!
     
@@ -98,8 +100,10 @@ class ViewController: UIViewController {
         if (sender.titleLabel!.text == correctAnswer) {
             correctQuestions += 1
             questionField.text = "Correct!"
+            playCorrectAnswerSound()
         } else {
             questionField.text = "Sorry, the correct answer is \(correctAnswer)!"
+            playIncorrectAnswerSound()
         }
         
         loadNextRoundWithDelay(seconds: 2)
@@ -151,6 +155,27 @@ class ViewController: UIViewController {
     
     func playGameStartSound() {
         AudioServicesPlaySystemSound(gameSound)
+    }
+    
+    func loadCorrectAnswerSound() {
+        let pathToSoundFile = NSBundle.mainBundle().pathForResource("CorrectAnswer", ofType: "wav")
+        let soundURL = NSURL(fileURLWithPath: pathToSoundFile!)
+        AudioServicesCreateSystemSoundID(soundURL, &correctAnswerSound)
+    }
+    
+    func playCorrectAnswerSound() {
+        AudioServicesPlaySystemSound(correctAnswerSound)
+    }
+    
+    func loadIncorrectAnswerSound() {
+        let pathToSoundFile = NSBundle.mainBundle().pathForResource("WrongAnswer", ofType: "wav")
+        let soundURL = NSURL(fileURLWithPath: pathToSoundFile!)
+        AudioServicesCreateSystemSoundID(soundURL, &wrongAnswerSound)
+        
+    }
+    
+    func playIncorrectAnswerSound() {
+        AudioServicesPlaySystemSound(wrongAnswerSound)
     }
 }
 
