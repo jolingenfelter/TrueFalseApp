@@ -41,6 +41,8 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         loadGameStartSound()
+        loadCorrectAnswerSound()
+        loadIncorrectAnswerSound()
         // Start game
         playGameStartSound()
         displayQuestion()
@@ -136,6 +138,7 @@ class ViewController: UIViewController {
         choice3.hidden = false
         choice4.hidden = false
         
+        playGameStartSound()
         questionsAsked = 0
         correctQuestions = 0
         nextRound()
