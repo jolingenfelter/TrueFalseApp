@@ -12,20 +12,31 @@ import AudioToolbox
 
 class ViewController: UIViewController {
     
-    let questionsPerRound = 4
+    let questionsPerRound = 5
     var questionsAsked = 0
     var correctQuestions = 0
-    var indexOfSelectedQuestion: Int = 0
+    var randomlySelectedQuestionIndex : Int = 0
+    var usedQuestionsArray : [Int] = []
     
-    let triviaModel = TriviaModel()
-    
+    // Sound effects
     var gameSound: SystemSoundID = 0
+    var wrongAnswerSound: SystemSoundID = 0
+    var correctAnswerSound: SystemSoundID = 0
     
     @IBOutlet weak var questionField: UILabel!
-    @IBOutlet weak var trueButton: UIButton!
-    @IBOutlet weak var falseButton: UIButton!
+    
+    // Buttons
+    @IBOutlet weak var choice1: UIButton!
+    @IBOutlet weak var choice2: UIButton!
+    @IBOutlet weak var choice3: UIButton!
+    @IBOutlet weak var choice4: UIButton!
     @IBOutlet weak var playAgainButton: UIButton!
     
+    // Timer
+    var timer = NSTimer()
+    var time = 15
+    var timerRunning = false
+    @IBOutlet weak var timerLabel: UILabel!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,15 +52,42 @@ class ViewController: UIViewController {
     }
     
     func displayQuestion() {
-        let questionDictionary = triviaModel.getRandomQuestion()
-        questionField.text = questionDictionary["Question"]
+        
+        //Question
+        randomlySelectedQuestionIndex = GKRandomSource.sharedRandom().nextIntWithUpperBound(questionsArray.count)
+        
+        //Logic to avoid repeating questions 
+        while usedQuestionsArray.contains(randomlySelectedQuestionIndex) {
+            randomlySelectedQuestionIndex = GKRandomSource.sharedRandom().nextIntWithUpperBound(questionsArray.count)
+        }
+        
+        usedQuestionsArray.append(randomlySelectedQuestionIndex)
+        
+        //So the user can still replay after all of the questions have been used
+        if usedQuestionsArray.count == questionsArray.count {
+            usedQuestionsArray = []
+        }
+        
+        let question = questionsArray[randomlySelectedQuestionIndex];
+        questionField.text = question.question
         playAgainButton.hidden = true
+        
+        //Answers
+        choice1.setTitle(question.choice01, forState: UIControlState.Normal)
+        choice2.setTitle(question.choice02, forState: UIControlState.Normal)
+        choice3.setTitle(question.choice03, forState: UIControlState.Normal)
+        choice4.setTitle(question.choice04, forState: UIControlState.Normal)
+        
+        resetTimerAndButtons()
+        beginTimer()
     }
     
     func displayScore() {
         // Hide the answer buttons
-        trueButton.hidden = true
-        falseButton.hidden = true
+        choice1.hidden = true
+        choice2.hidden = true
+        choice3.hidden = true
+        choice4.hidden = true
         
         // Display play again button
         playAgainButton.hidden = false
@@ -62,17 +100,23 @@ class ViewController: UIViewController {
         // Increment the questions asked counter
         questionsAsked += 1
         
-        let selectedQuestionDict = triviaModel.trivia[indexOfSelectedQuestion]
-        let correctAnswer = selectedQuestionDict["Answer"]
+        let selectedQuestion = questionsArray[randomlySelectedQuestionIndex]
+        let correctAnswer = selectedQuestion.answer
         
-        if (sender === trueButton &&  correctAnswer == "True") || (sender === falseButton && correctAnswer == "False") {
+        if (sender.titleLabel!.text == correctAnswer) {
             correctQuestions += 1
             questionField.text = "Correct!"
+            playCorrectAnswerSound()
+            disableButtons()
+            timer.invalidate()
         } else {
-            questionField.text = "Sorry, wrong answer!"
+            questionField.text = "Sorry, the correct answer is \(correctAnswer)!"
+            playIncorrectAnswerSound()
+            disableButtons()
+            timer.invalidate()
         }
         
-        loadNextRoundWithDelay(seconds: 2)
+        loadNextRoundWithDelay(seconds: 1)
     }
     
     func nextRound() {
@@ -87,14 +131,70 @@ class ViewController: UIViewController {
     
     @IBAction func playAgain() {
         // Show the answer buttons
-        trueButton.hidden = false
-        falseButton.hidden = false
+        choice1.hidden = false
+        choice2.hidden = false
+        choice3.hidden = false
+        choice4.hidden = false
         
         questionsAsked = 0
         correctQuestions = 0
         nextRound()
     }
     
+    // Timer
+    
+    func beginTimer() {
+        if timerRunning == false {
+            timer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: #selector(ViewController.displayCountDown), userInfo: nil, repeats: true)
+            
+            timerRunning = true
+        }
+    }
+    
+    func displayCountDown() {
+        
+        time -= 1
+        timerLabel.text = "\(time)"
+        
+        if time <= 5 {
+            timerLabel.textColor = UIColor.redColor()
+        }
+        
+        if time == 0 {
+            timer.invalidate()
+            questionField.text = "Time's up!"
+            questionsAsked += 1
+            playIncorrectAnswerSound()
+            disableButtons()
+            loadNextRoundWithDelay(seconds: 1)
+            questionField.textColor = UIColor.redColor()
+            
+        }
+        
+    }
+    
+    func resetTimerAndButtons() {
+        time = 15
+        timerLabel.text = "\(time)"
+        timerRunning = false
+        timerLabel.textColor = UIColor.whiteColor()
+        questionField.textColor = UIColor.whiteColor()
+        enableButtons()
+    }
+    
+    func disableButtons() {
+        choice1.userInteractionEnabled = false
+        choice2.userInteractionEnabled = false
+        choice3.userInteractionEnabled = false
+        choice4.userInteractionEnabled = false
+    }
+    
+    func enableButtons() {
+        choice1.userInteractionEnabled = true
+        choice2.userInteractionEnabled = true
+        choice3.userInteractionEnabled = true
+        choice4.userInteractionEnabled = true
+    }
 
     
     // MARK: Helper Methods
@@ -119,6 +219,27 @@ class ViewController: UIViewController {
     
     func playGameStartSound() {
         AudioServicesPlaySystemSound(gameSound)
+    }
+    
+    func loadCorrectAnswerSound() {
+        let pathToSoundFile = NSBundle.mainBundle().pathForResource("CorrectAnswer", ofType: "wav")
+        let soundURL = NSURL(fileURLWithPath: pathToSoundFile!)
+        AudioServicesCreateSystemSoundID(soundURL, &correctAnswerSound)
+    }
+    
+    func playCorrectAnswerSound() {
+        AudioServicesPlaySystemSound(correctAnswerSound)
+    }
+    
+    func loadIncorrectAnswerSound() {
+        let pathToSoundFile = NSBundle.mainBundle().pathForResource("WrongAnswer", ofType: "wav")
+        let soundURL = NSURL(fileURLWithPath: pathToSoundFile!)
+        AudioServicesCreateSystemSoundID(soundURL, &wrongAnswerSound)
+        
+    }
+    
+    func playIncorrectAnswerSound() {
+        AudioServicesPlaySystemSound(wrongAnswerSound)
     }
 }
 
