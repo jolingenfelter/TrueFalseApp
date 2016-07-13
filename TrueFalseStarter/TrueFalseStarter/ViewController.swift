@@ -118,6 +118,15 @@ class ViewController: UIViewController {
             timer.invalidate()
         }
         
+        let buttonsArray = [choice1, choice2, choice3, choice4]
+        for button: UIButton in buttonsArray {
+            if button.highlighted == true {
+                button.alpha = 1.0
+            } else {
+                button.alpha = 0.3
+            }
+        }
+        
         loadNextRoundWithDelay(seconds: 1)
     }
     
@@ -128,6 +137,10 @@ class ViewController: UIViewController {
         } else {
             // Continue game
             displayQuestion()
+            let buttonsArray = [choice1, choice2, choice3, choice4]
+            for button: UIButton in buttonsArray {
+                button.alpha = 1.0
+            }
         }
     }
     
