@@ -33,7 +33,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var playAgainButton: UIButton!
     
     // Timer
-    var timer = NSTimer()
+    var timer = Timer()
     var time = 15
     var timerRunning = false
     @IBOutlet weak var timerLabel: UILabel!
@@ -56,11 +56,11 @@ class ViewController: UIViewController {
     func displayQuestion() {
         
         //Question
-        randomlySelectedQuestionIndex = GKRandomSource.sharedRandom().nextIntWithUpperBound(questionsArray.count)
+        randomlySelectedQuestionIndex = GKRandomSource.sharedRandom().nextInt(upperBound: questionsArray.count)
         
         //Logic to avoid repeating questions 
         while usedQuestionsArray.contains(randomlySelectedQuestionIndex) {
-            randomlySelectedQuestionIndex = GKRandomSource.sharedRandom().nextIntWithUpperBound(questionsArray.count)
+            randomlySelectedQuestionIndex = GKRandomSource.sharedRandom().nextInt(upperBound: questionsArray.count)
         }
         
         usedQuestionsArray.append(randomlySelectedQuestionIndex)
@@ -72,13 +72,13 @@ class ViewController: UIViewController {
         
         let question = questionsArray[randomlySelectedQuestionIndex];
         questionField.text = question.question
-        playAgainButton.hidden = true
+        playAgainButton.isHidden = true
         
         //Answers
-        choice1.setTitle(question.choice01, forState: UIControlState.Normal)
-        choice2.setTitle(question.choice02, forState: UIControlState.Normal)
-        choice3.setTitle(question.choice03, forState: UIControlState.Normal)
-        choice4.setTitle(question.choice04, forState: UIControlState.Normal)
+        choice1.setTitle(question.choice01, for: UIControlState())
+        choice2.setTitle(question.choice02, for: UIControlState())
+        choice3.setTitle(question.choice03, for: UIControlState())
+        choice4.setTitle(question.choice04, for: UIControlState())
         
         resetTimerAndButtons()
         beginTimer()
@@ -86,19 +86,19 @@ class ViewController: UIViewController {
     
     func displayScore() {
         // Hide the answer buttons
-        choice1.hidden = true
-        choice2.hidden = true
-        choice3.hidden = true
-        choice4.hidden = true
+        choice1.isHidden = true
+        choice2.isHidden = true
+        choice3.isHidden = true
+        choice4.isHidden = true
         
         // Display play again button
-        playAgainButton.hidden = false
+        playAgainButton.isHidden = false
         
         questionField.text = "Way to go!\nYou got \(correctQuestions) out of \(questionsPerRound) correct!"
         
     }
     
-    @IBAction func checkAnswer(sender: UIButton) {
+    @IBAction func checkAnswer(_ sender: UIButton) {
         // Increment the questions asked counter
         questionsAsked += 1
         
@@ -119,11 +119,12 @@ class ViewController: UIViewController {
         }
         
         let buttonsArray = [choice1, choice2, choice3, choice4]
-        for button: UIButton in buttonsArray {
-            if button.highlighted == true {
-                button.alpha = 1.0
+        
+        for button in buttonsArray {
+            if button!.isHighlighted == true {
+                button!.alpha = 1.0
             } else {
-                button.alpha = 0.3
+                button!.alpha = 0.3
             }
         }
         
@@ -138,18 +139,18 @@ class ViewController: UIViewController {
             // Continue game
             displayQuestion()
             let buttonsArray = [choice1, choice2, choice3, choice4]
-            for button: UIButton in buttonsArray {
-                button.alpha = 1.0
+            for button in buttonsArray {
+                button!.alpha = 1.0
             }
         }
     }
     
     @IBAction func playAgain() {
         // Show the answer buttons
-        choice1.hidden = false
-        choice2.hidden = false
-        choice3.hidden = false
-        choice4.hidden = false
+        choice1.isHidden = false
+        choice2.isHidden = false
+        choice3.isHidden = false
+        choice4.isHidden = false
         
         playGameStartSound()
         questionsAsked = 0
@@ -161,7 +162,7 @@ class ViewController: UIViewController {
     
     func beginTimer() {
         if timerRunning == false {
-            timer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: #selector(ViewController.displayCountDown), userInfo: nil, repeats: true)
+            timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(ViewController.displayCountDown), userInfo: nil, repeats: true)
             
             timerRunning = true
         }
@@ -173,7 +174,7 @@ class ViewController: UIViewController {
         timerLabel.text = "\(time)"
         
         if time <= 5 {
-            timerLabel.textColor = UIColor.redColor()
+            timerLabel.textColor = UIColor.red
         }
         
         if time == 0 {
@@ -183,7 +184,7 @@ class ViewController: UIViewController {
             playIncorrectAnswerSound()
             disableButtons()
             loadNextRoundWithDelay(seconds: 1)
-            questionField.textColor = UIColor.redColor()
+            questionField.textColor = UIColor.red
             
         }
         
@@ -193,44 +194,44 @@ class ViewController: UIViewController {
         time = 15
         timerLabel.text = "\(time)"
         timerRunning = false
-        timerLabel.textColor = UIColor.whiteColor()
-        questionField.textColor = UIColor.whiteColor()
+        timerLabel.textColor = UIColor.white
+        questionField.textColor = UIColor.white
         enableButtons()
     }
     
     func disableButtons() {
-        choice1.userInteractionEnabled = false
-        choice2.userInteractionEnabled = false
-        choice3.userInteractionEnabled = false
-        choice4.userInteractionEnabled = false
+        choice1.isUserInteractionEnabled = false
+        choice2.isUserInteractionEnabled = false
+        choice3.isUserInteractionEnabled = false
+        choice4.isUserInteractionEnabled = false
     }
     
     func enableButtons() {
-        choice1.userInteractionEnabled = true
-        choice2.userInteractionEnabled = true
-        choice3.userInteractionEnabled = true
-        choice4.userInteractionEnabled = true
+        choice1.isUserInteractionEnabled = true
+        choice2.isUserInteractionEnabled = true
+        choice3.isUserInteractionEnabled = true
+        choice4.isUserInteractionEnabled = true
     }
 
     
     // MARK: Helper Methods
     
-    func loadNextRoundWithDelay(seconds seconds: Int) {
+    func loadNextRoundWithDelay(seconds: Int) {
         // Converts a delay in seconds to nanoseconds as signed 64 bit integer
         let delay = Int64(NSEC_PER_SEC * UInt64(seconds))
         // Calculates a time value to execute the method given current time and delay
-        let dispatchTime = dispatch_time(DISPATCH_TIME_NOW, delay)
+        let dispatchTime = DispatchTime.now() + Double(delay) / Double(NSEC_PER_SEC)
         
         // Executes the nextRound method at the dispatch time on the main queue
-        dispatch_after(dispatchTime, dispatch_get_main_queue()) {
+        DispatchQueue.main.asyncAfter(deadline: dispatchTime) {
             self.nextRound()
         }
     }
     
     func loadGameStartSound() {
-        let pathToSoundFile = NSBundle.mainBundle().pathForResource("GameSound", ofType: "wav")
-        let soundURL = NSURL(fileURLWithPath: pathToSoundFile!)
-        AudioServicesCreateSystemSoundID(soundURL, &gameSound)
+        let pathToSoundFile = Bundle.main.path(forResource: "GameSound", ofType: "wav")
+        let soundURL = URL(fileURLWithPath: pathToSoundFile!)
+        AudioServicesCreateSystemSoundID(soundURL as CFURL, &gameSound)
     }
     
     func playGameStartSound() {
@@ -238,9 +239,9 @@ class ViewController: UIViewController {
     }
     
     func loadCorrectAnswerSound() {
-        let pathToSoundFile = NSBundle.mainBundle().pathForResource("CorrectAnswer", ofType: "wav")
-        let soundURL = NSURL(fileURLWithPath: pathToSoundFile!)
-        AudioServicesCreateSystemSoundID(soundURL, &correctAnswerSound)
+        let pathToSoundFile = Bundle.main.path(forResource: "CorrectAnswer", ofType: "wav")
+        let soundURL = URL(fileURLWithPath: pathToSoundFile!)
+        AudioServicesCreateSystemSoundID(soundURL as CFURL, &correctAnswerSound)
     }
     
     func playCorrectAnswerSound() {
@@ -248,9 +249,9 @@ class ViewController: UIViewController {
     }
     
     func loadIncorrectAnswerSound() {
-        let pathToSoundFile = NSBundle.mainBundle().pathForResource("WrongAnswer", ofType: "wav")
-        let soundURL = NSURL(fileURLWithPath: pathToSoundFile!)
-        AudioServicesCreateSystemSoundID(soundURL, &wrongAnswerSound)
+        let pathToSoundFile = Bundle.main.path(forResource: "WrongAnswer", ofType: "wav")
+        let soundURL = URL(fileURLWithPath: pathToSoundFile!)
+        AudioServicesCreateSystemSoundID(soundURL as CFURL, &wrongAnswerSound)
         
     }
     
