@@ -7,3 +7,8 @@
 //
 
 import Foundation
+
+enum QuizType {
+    case trivia
+    case math
+}

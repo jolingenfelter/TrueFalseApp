@@ -15,8 +15,12 @@ class QuizViewController: UIViewController {
     let questionsPerRound = 5
     var questionsAsked = 0
     var correctQuestions = 0
-    var randomlySelectedQuestionIndex : Int = 0
-    var usedQuestionsArray : [Int] = []
+    var questionIndex : Int = 0
+    let triviaQuiz = TriviaQuiz()
+    
+    lazy var questionsArray: [Question] = {
+        return self.triviaQuiz.generateTriviaQuiz()
+    }()
     
     // Sound effects
     var gameSound: SystemSoundID = 0
@@ -55,22 +59,7 @@ class QuizViewController: UIViewController {
     
     func displayQuestion() {
         
-        //Question
-        randomlySelectedQuestionIndex = GKRandomSource.sharedRandom().nextInt(upperBound: questionsArray.count)
-        
-        //Logic to avoid repeating questions 
-        while usedQuestionsArray.contains(randomlySelectedQuestionIndex) {
-            randomlySelectedQuestionIndex = GKRandomSource.sharedRandom().nextInt(upperBound: questionsArray.count)
-        }
-        
-        usedQuestionsArray.append(randomlySelectedQuestionIndex)
-        
-        //So the user can still replay after all of the questions have been used
-        if usedQuestionsArray.count == questionsArray.count {
-            usedQuestionsArray = []
-        }
-        
-        let question = questionsArray[randomlySelectedQuestionIndex];
+        let question = questionsArray[questionIndex]
         questionField.text = question.question
         playAgainButton.isHidden = true
         
@@ -82,6 +71,7 @@ class QuizViewController: UIViewController {
         
         resetTimerAndButtons()
         beginTimer()
+        questionIndex += 1
     }
     
     func displayScore() {
@@ -102,7 +92,7 @@ class QuizViewController: UIViewController {
         // Increment the questions asked counter
         questionsAsked += 1
         
-        let selectedQuestion = questionsArray[randomlySelectedQuestionIndex]
+        let selectedQuestion = questionsArray[questionIndex]
         let correctAnswer = selectedQuestion.answer
         
         if (sender.titleLabel!.text == correctAnswer) {
@@ -134,6 +124,7 @@ class QuizViewController: UIViewController {
     func nextRound() {
         if questionsAsked == questionsPerRound {
             // Game is over
+            questionsArray = triviaQuiz.generateTriviaQuiz()
             displayScore()
         } else {
             // Continue game
