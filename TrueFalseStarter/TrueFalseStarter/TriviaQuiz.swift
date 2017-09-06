@@ -8,7 +8,7 @@
 
 import Foundation
 
-class TriviaQuiz {
+class TriviaQuiz{
     
     let q1 = TriviaQuestion(question: "Which is the only planet in our solar system that rotates clockwise?", answer: "Venus", choice01: "Venus", choice02: "Jupiter", choice03: "Saturn", choice04: "Uranus")
     
