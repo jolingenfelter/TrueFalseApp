@@ -21,7 +21,7 @@ class TriviaQuestion: Quiz {
         return [self.choice01, self.choice02, self.choice03, self.choice04].shuffle
     }()
     
-    init(question: String, answer: String, choice01: String, choice02: String, choice03: String, choice04: String) {
+    init(question: String, answer: String, choice01: String, choice02: String, choice03: String) {
         self.question = question
         self.answer = answer
         self.choice01 = choice01
