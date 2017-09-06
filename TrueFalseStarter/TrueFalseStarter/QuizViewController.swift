@@ -64,10 +64,10 @@ class QuizViewController: UIViewController {
         playAgainButton.isHidden = true
         
         //Answers
-        choice1.setTitle(question.choice01, for: UIControlState())
-        choice2.setTitle(question.choice02, for: UIControlState())
-        choice3.setTitle(question.choice03, for: UIControlState())
-        choice4.setTitle(question.choice04, for: UIControlState())
+        choice1.setTitle(question.choicesArray[0], for: UIControlState())
+        choice2.setTitle(question.choicesArray[1], for: UIControlState())
+        choice3.setTitle(question.choicesArray[2], for: UIControlState())
+        choice4.setTitle(question.choicesArray[3], for: UIControlState())
         
         resetTimerAndButtons()
         beginTimer()
@@ -94,7 +94,7 @@ class QuizViewController: UIViewController {
         let selectedQuestion = questionsArray[questionIndex]
         let correctAnswer = selectedQuestion.answer
         
-        if (sender.titleLabel!.text == correctAnswer) {
+        if (sender.titleLabel!.text == String(describing: correctAnswer)) {
             correctQuestions += 1
             questionField.text = "Correct!"
             playCorrectAnswerSound()
