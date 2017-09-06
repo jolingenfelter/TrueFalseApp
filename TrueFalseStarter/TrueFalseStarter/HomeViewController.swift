@@ -1,5 +1,5 @@
 //
-//  ChooseQuizTypeViewController.swift
+//  HomeViewController.swift
 //  TrueFalseStarter
 //
 //  Created by Joanna Lingenfelter on 9/6/17.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ChooseQuizTypeViewController: UIViewController {
+class HomeViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()

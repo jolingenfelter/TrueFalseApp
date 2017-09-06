@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Question {
+class TriviaQuestion {
     let question: String
     let answer: String
     let choice01: String

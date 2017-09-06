@@ -18,7 +18,7 @@ class QuizViewController: UIViewController {
     var questionIndex : Int = 0
     let triviaQuiz = TriviaQuiz()
     
-    lazy var questionsArray: [Question] = {
+    lazy var questionsArray: [TriviaQuestion] = {
         return self.triviaQuiz.generateTriviaQuiz()
     }()
     
@@ -71,7 +71,6 @@ class QuizViewController: UIViewController {
         
         resetTimerAndButtons()
         beginTimer()
-        questionIndex += 1
     }
     
     func displayScore() {
@@ -101,10 +100,12 @@ class QuizViewController: UIViewController {
             playCorrectAnswerSound()
             disableButtons()
             timer.invalidate()
+            questionIndex += 1
         } else {
             questionField.text = "Sorry, the correct answer is \(correctAnswer)!"
             playIncorrectAnswerSound()
             disableButtons()
+            questionIndex += 1
             timer.invalidate()
         }
         

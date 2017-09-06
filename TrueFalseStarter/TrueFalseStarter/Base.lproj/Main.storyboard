@@ -10,10 +10,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Choose Quiz Type View Controller-->
+        <!--Home View Controller-->
         <scene sceneID="vpv-59-E5X">
             <objects>
-                <viewController id="ceg-13-pq7" customClass="ChooseQuizTypeViewController" customModule="TrueFalseStarter" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="ceg-13-pq7" customClass="HomeViewController" customModule="TrueFalseStarter" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="fKL-ZC-8Xa"/>
                         <viewControllerLayoutGuide type="bottom" id="RV1-32-1JU"/>
