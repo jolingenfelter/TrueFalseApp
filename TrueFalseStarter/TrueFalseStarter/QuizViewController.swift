@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  QuizViewController.swift
 //  TrueFalseStarter
 //
 //  Created by Pasan Premaratne on 3/9/16.
@@ -10,7 +10,7 @@ import UIKit
 import GameKit
 import AudioToolbox
 
-class ViewController: UIViewController {
+class QuizViewController: UIViewController {
     
     let questionsPerRound = 5
     var questionsAsked = 0
@@ -162,7 +162,7 @@ class ViewController: UIViewController {
     
     func beginTimer() {
         if timerRunning == false {
-            timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(ViewController.displayCountDown), userInfo: nil, repeats: true)
+            timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(displayCountDown), userInfo: nil, repeats: true)
             
             timerRunning = true
         }
