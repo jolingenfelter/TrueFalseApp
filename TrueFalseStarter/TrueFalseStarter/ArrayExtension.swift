@@ -9,6 +9,7 @@
 import Foundation
 
 extension Array {
+    
     var shuffle:[Element] {
         var elements = self
         for index in 0..<elements.count {
@@ -30,5 +31,13 @@ extension Array {
         }
         
         return result
+    }
+    
+    func takeElements(elementCount: Int) -> Array {
+        var elementCount = elementCount
+        if (elementCount > count) {
+            elementCount = count
+        }
+        return Array(self[0..<elementCount])
     }
 }

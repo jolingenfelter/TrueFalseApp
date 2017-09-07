@@ -16,7 +16,7 @@ enum QuizType {
     func generateQuiz(_ questions: Int) -> Quiz {
         
         switch self {
-            case .trivia: return TriviaQuiz()
+            case .trivia: return TriviaQuiz(withNumberOfQuestions: questions)
             case .math: return MathQuiz(numberOfQuestions: questions)
         }
     }
