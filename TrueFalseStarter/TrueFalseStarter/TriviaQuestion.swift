@@ -10,14 +10,14 @@ import Foundation
 
 class TriviaQuestion: Quiz {
     
-    var question: String
-    var answer: Any
-    var choice01: String
-    var choice02: String
-    var choice03: String
-    var choice04: String
+    internal var question: String
+    internal var answer: Any
+    internal var choice01: String
+    internal var choice02: String
+    internal var choice03: String
+    internal var choice04: String
     
-    lazy var choicesArray: [String] = {
+    internal lazy var choicesArray: [String] = {
         return [self.choice01, self.choice02, self.choice03, self.choice04].shuffle
     }()
     

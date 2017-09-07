@@ -22,3 +22,7 @@ protocol Quiz {
     var choice04: String { get }
     var choicesArray: [String] { get }
 }
+
+class QuizGenerator {
+    
+}
