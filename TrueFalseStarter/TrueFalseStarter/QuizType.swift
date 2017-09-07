@@ -9,20 +9,16 @@
 import Foundation
 
 enum QuizType {
+    
     case trivia
     case math
-}
-
-protocol Quiz {
-    var question: String { get }
-    var answer: Any { get }
-    var choice01: String { get }
-    var choice02: String { get }
-    var choice03: String { get }
-    var choice04: String { get }
-    var choicesArray: [String] { get }
-}
-
-class QuizGenerator {
     
+    func generateQuiz(_ questions: Int) -> Quiz {
+        
+        switch self {
+            case .trivia: return TriviaQuiz()
+            case .math: return MathQuiz(numberOfQuestions: questions)
+        }
+    }
 }
+

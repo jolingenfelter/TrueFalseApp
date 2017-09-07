@@ -8,7 +8,7 @@
 
 import Foundation
 
-class TriviaQuiz{
+class TriviaQuiz: Quiz {
     
     let q1 = TriviaQuestion(question: "Which is the only planet in our solar system that rotates clockwise?", answer: "Venus", choice01: "Uranus", choice02: "Jupiter", choice03: "Saturn")
     
@@ -30,14 +30,9 @@ class TriviaQuiz{
     
     let q10 = TriviaQuestion(question: "What is the official name for the fear of being tickled by feathers?", answer: "Pteronophobia", choice01: "Kynophobia", choice02: "Botanophobia", choice03: "Chorophobia")
     
-    var questionsArray: [TriviaQuestion] {
-        return [q1, q2, q3, q4, q5, q6, q7, q8, q9, q10]
+    internal var questionsArray: [Question] {
+        return [q1, q2, q3, q4, q5, q6, q7, q8, q9, q10].shuffle
     }
-    
-    func generateTriviaQuiz() -> [TriviaQuestion] {
-        return questionsArray.shuffle
-    }
-
 }
 
 

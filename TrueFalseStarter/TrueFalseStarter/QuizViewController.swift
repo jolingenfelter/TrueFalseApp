@@ -19,7 +19,7 @@ class QuizViewController: UIViewController {
     let triviaQuiz = TriviaQuiz()
     
     lazy var questionsArray: [TriviaQuestion] = {
-        return self.triviaQuiz.generateTriviaQuiz()
+        return self.triviaQuiz.questionsArray as! [TriviaQuestion]
     }()
     
     // Sound effects
@@ -125,7 +125,7 @@ class QuizViewController: UIViewController {
     func nextRound() {
         if questionsAsked == questionsPerRound {
             // Game is over
-            questionsArray = triviaQuiz.generateTriviaQuiz()
+            questionsArray = triviaQuiz.questionsArray as! [TriviaQuestion]
             displayScore()
         } else {
             // Continue game

@@ -8,9 +8,9 @@
 
 import Foundation
 
-class MathQuiz {
+class MathQuiz: Quiz {
     
-    internal var questionsArray = [MathQuestion]()
+    internal var questionsArray = [Question]()
     
     init(numberOfQuestions: Int) {
         
@@ -21,3 +21,4 @@ class MathQuiz {
         
     }
 }
+

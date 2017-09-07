@@ -8,7 +8,7 @@
 
 import Foundation
 
-class TriviaQuestion: Quiz {
+class TriviaQuestion: Question {
     
     internal var question: String
     internal var answer: Any

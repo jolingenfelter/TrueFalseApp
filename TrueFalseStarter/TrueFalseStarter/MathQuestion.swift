@@ -9,7 +9,7 @@
 import Foundation
 import GameKit
 
-class MathQuestion: Quiz {
+class MathQuestion: Question {
     
     private var number: Int
     private var otherNumber: Int
