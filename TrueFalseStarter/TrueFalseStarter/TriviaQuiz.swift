@@ -27,15 +27,7 @@ class TriviaQuiz: Quiz {
             
         }
     }
-    
-    func newQuiz(numberOfQuestions: Int) {
-        
-        for _ in 0..<numberOfQuestions {
-            let shuffledArray = questionsArray.shuffle
-            questionsArray = shuffledArray.takeElements(elementCount: numberOfQuestions)
-        }
-        
-    }
+
 }
 
 

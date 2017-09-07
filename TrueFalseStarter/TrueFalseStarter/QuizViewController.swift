@@ -16,10 +16,11 @@ class QuizViewController: UIViewController {
     var questionsAsked = 0
     var correctQuestions = 0
     var questionIndex : Int = 0
-    let triviaQuiz = TriviaQuiz()
+    var quizType: QuizType?
     
-    lazy var questionsArray: [TriviaQuestion] = {
-        return self.triviaQuiz.questionsArray as! [TriviaQuestion]
+    lazy var questionsArray: [Question] = {
+        let quiz = self.quizType?.generateQuiz(self.questionsPerRound)
+        return quiz!.questionsArray
     }()
     
     // Sound effects
@@ -41,6 +42,7 @@ class QuizViewController: UIViewController {
     var time = 15
     var timerRunning = false
     @IBOutlet weak var timerLabel: UILabel!
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -82,6 +84,9 @@ class QuizViewController: UIViewController {
         
         // Display play again button
         playAgainButton.isHidden = false
+        
+        // Hide TimerLabel
+        timerLabel.isHidden = true
         
         questionField.text = "Way to go!\nYou got \(correctQuestions) out of \(questionsPerRound) correct!"
         
@@ -125,12 +130,22 @@ class QuizViewController: UIViewController {
     func nextRound() {
         if questionsAsked == questionsPerRound {
             // Game is over
-            questionsArray = triviaQuiz.questionsArray as! [TriviaQuestion]
+            
+            guard let quizType = quizType else {
+                return
+            }
+            
+            let newQuiz = quizType.generateQuiz(questionsPerRound)
+            questionsArray = newQuiz.questionsArray
+            questionIndex = 0
+            
             displayScore()
+            
         } else {
             // Continue game
             displayQuestion()
             let buttonsArray = [choice1, choice2, choice3, choice4]
+            timerLabel.isHidden = false
             for button in buttonsArray {
                 button!.alpha = 1.0
             }

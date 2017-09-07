@@ -26,11 +26,14 @@ class HomeViewController: UIViewController {
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        let quizViewController = segue.destination as! QuizViewController
+        
         switch  segue.identifier! {
         case "TriviaQuestions" :
-            print("Trivia")
+            quizViewController.quizType = QuizType.trivia
         case "MathQuestions":
-            print("MathQuiz")
+            quizViewController.quizType = QuizType.math
         default:
             print("No segue")
             
