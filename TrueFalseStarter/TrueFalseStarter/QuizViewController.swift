@@ -31,7 +31,10 @@ class QuizViewController: UIViewController {
     
     let soundCoordinator = SoundCoordinator()
     
+    // Labels
     @IBOutlet weak var questionField: UILabel!
+    @IBOutlet weak var progressLabel: UILabel!
+    
     
     // Buttons
     @IBOutlet weak var choice1: UIButton!
@@ -42,7 +45,7 @@ class QuizViewController: UIViewController {
     
     // Timer
     var timer: Timer?
-    var time = 15
+    var time = 10
     var timerRunning = false
     @IBOutlet weak var timerLabel: UILabel!
     
@@ -97,6 +100,8 @@ class QuizViewController: UIViewController {
         choice3.setTitle(question.choicesArray[2], for: UIControlState())
         choice4.setTitle(question.choicesArray[3], for: UIControlState())
         
+        progressLabel.isHidden = false
+        progressLabel.text = "\(questionIndex + 1)/\(questionsPerRound)"
         resetTimerAndButtons()
         beginTimer()
     }
@@ -111,8 +116,9 @@ class QuizViewController: UIViewController {
         // Display play again button
         playAgainButton.isHidden = false
         
-        // Hide TimerLabel
+        // Hide Labels
         timerLabel.isHidden = true
+        progressLabel.isHidden = true
         
         questionField.text = "Way to go!\nYou got \(correctQuestions) out of \(questionsPerRound) correct!"
         
@@ -219,7 +225,7 @@ class QuizViewController: UIViewController {
     }
     
     func resetTimerAndButtons() {
-        time = 15
+        time = 10
         timerLabel.text = "\(time)"
         timerRunning = false
         timerLabel.textColor = UIColor.white
