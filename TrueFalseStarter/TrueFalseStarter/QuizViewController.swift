@@ -35,10 +35,14 @@ class QuizViewController: UIViewController {
     @IBOutlet weak var playAgainButton: UIButton!
     
     // Timer
-    var timer = Timer()
+    var timer: Timer?
     var time = 15
     var timerRunning = false
     @IBOutlet weak var timerLabel: UILabel!
+    
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
@@ -48,6 +52,7 @@ class QuizViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
+        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(displayCountDown), userInfo: nil, repeats: true)
         soundCoordinator.playGameStartSound()
     }
     
@@ -119,14 +124,12 @@ class QuizViewController: UIViewController {
             questionField.text = "Correct!"
             soundCoordinator.playCorrectAnswerSound()
             disableButtons()
-            timer.invalidate()
             questionIndex += 1
         } else {
             questionField.text = "Sorry, the correct answer is \(correctAnswer)!"
             soundCoordinator.playIncorrectAnswerSound()
             disableButtons()
             questionIndex += 1
-            timer.invalidate()
         }
         
         let buttonsArray = [choice1, choice2, choice3, choice4]
@@ -184,7 +187,6 @@ class QuizViewController: UIViewController {
     
     func beginTimer() {
         if timerRunning == false {
-            timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(displayCountDown), userInfo: nil, repeats: true)
             
             timerRunning = true
         }
@@ -200,14 +202,12 @@ class QuizViewController: UIViewController {
         }
         
         if time == 0 {
-            timer.invalidate()
             questionField.text = "Time's up!"
             questionsAsked += 1
             soundCoordinator.playIncorrectAnswerSound()
             disableButtons()
             loadNextRoundWithDelay(seconds: 1)
             questionField.textColor = UIColor.red
-            
         }
         
     }
