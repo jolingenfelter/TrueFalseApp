@@ -23,10 +23,7 @@ class QuizViewController: UIViewController {
         return quiz!.questionsArray
     }()
     
-    // Sound effects
-    var gameSound: SystemSoundID = 0
-    var wrongAnswerSound: SystemSoundID = 0
-    var correctAnswerSound: SystemSoundID = 0
+    let soundCoordinator = SoundCoordinator()
     
     @IBOutlet weak var questionField: UILabel!
     
@@ -46,11 +43,8 @@ class QuizViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        loadGameStartSound()
-        loadCorrectAnswerSound()
-        loadIncorrectAnswerSound()
         // Start game
-        playGameStartSound()
+        soundCoordinator.playGameStartSound()
         displayQuestion()
     }
 
@@ -102,13 +96,13 @@ class QuizViewController: UIViewController {
         if (sender.titleLabel!.text == String(describing: correctAnswer)) {
             correctQuestions += 1
             questionField.text = "Correct!"
-            playCorrectAnswerSound()
+            soundCoordinator.playCorrectAnswerSound()
             disableButtons()
             timer.invalidate()
             questionIndex += 1
         } else {
             questionField.text = "Sorry, the correct answer is \(correctAnswer)!"
-            playIncorrectAnswerSound()
+            soundCoordinator.playIncorrectAnswerSound()
             disableButtons()
             questionIndex += 1
             timer.invalidate()
@@ -159,7 +153,7 @@ class QuizViewController: UIViewController {
         choice3.isHidden = false
         choice4.isHidden = false
         
-        playGameStartSound()
+        soundCoordinator.playGameStartSound()
         questionsAsked = 0
         correctQuestions = 0
         nextRound()
@@ -188,7 +182,7 @@ class QuizViewController: UIViewController {
             timer.invalidate()
             questionField.text = "Time's up!"
             questionsAsked += 1
-            playIncorrectAnswerSound()
+            soundCoordinator.playIncorrectAnswerSound()
             disableButtons()
             loadNextRoundWithDelay(seconds: 1)
             questionField.textColor = UIColor.red
@@ -235,35 +229,5 @@ class QuizViewController: UIViewController {
         }
     }
     
-    func loadGameStartSound() {
-        let pathToSoundFile = Bundle.main.path(forResource: "GameSound", ofType: "wav")
-        let soundURL = URL(fileURLWithPath: pathToSoundFile!)
-        AudioServicesCreateSystemSoundID(soundURL as CFURL, &gameSound)
-    }
-    
-    func playGameStartSound() {
-        AudioServicesPlaySystemSound(gameSound)
-    }
-    
-    func loadCorrectAnswerSound() {
-        let pathToSoundFile = Bundle.main.path(forResource: "CorrectAnswer", ofType: "wav")
-        let soundURL = URL(fileURLWithPath: pathToSoundFile!)
-        AudioServicesCreateSystemSoundID(soundURL as CFURL, &correctAnswerSound)
-    }
-    
-    func playCorrectAnswerSound() {
-        AudioServicesPlaySystemSound(correctAnswerSound)
-    }
-    
-    func loadIncorrectAnswerSound() {
-        let pathToSoundFile = Bundle.main.path(forResource: "WrongAnswer", ofType: "wav")
-        let soundURL = URL(fileURLWithPath: pathToSoundFile!)
-        AudioServicesCreateSystemSoundID(soundURL as CFURL, &wrongAnswerSound)
-        
-    }
-    
-    func playIncorrectAnswerSound() {
-        AudioServicesPlaySystemSound(wrongAnswerSound)
-    }
 }
 
