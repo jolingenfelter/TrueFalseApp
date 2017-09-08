@@ -21,6 +21,10 @@ class TriviaQuiz: Quiz {
             let pListConversion = try PlistConverter.arrayFromFile(resource: "TriviaQuestions", ofType: "plist")
             questionsArray = QuestionsUnarchiver.questionsFromArray(array: pListConversion).shuffle
             
+        } catch TriviaQuestionError.pListConversionError{
+            
+            print(TriviaQuestionError.pListConversionError.rawValue)
+            
         } catch let error {
             
             print(error.localizedDescription)

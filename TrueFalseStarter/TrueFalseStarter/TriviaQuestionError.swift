@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum TriviaQuestionError: Error {
+enum TriviaQuestionError: String, Error {
     case invalidResource
     case pListConversionError
     case invalidKey

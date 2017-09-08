@@ -19,8 +19,14 @@ class QuizViewController: UIViewController {
     var quizType: QuizType?
     
     lazy var questionsArray: [Question] = {
-        let quiz = self.quizType?.generateQuiz(self.questionsPerRound)
-        return quiz!.questionsArray
+        
+        guard let quizType = self.quizType else {
+            fatalError()
+        }
+        
+        let quiz = quizType.generateQuiz(self.questionsPerRound)
+        return quiz.questionsArray
+        
     }()
     
     let soundCoordinator = SoundCoordinator()
@@ -148,7 +154,7 @@ class QuizViewController: UIViewController {
     func nextRound() {
         if questionsAsked == questionsPerRound {
             // Game is over
-            
+
             guard let quizType = quizType else {
                 return
             }
@@ -183,7 +189,7 @@ class QuizViewController: UIViewController {
         nextRound()
     }
     
-    // Timer
+    // MARK: - Timer & Button Setup
     
     func beginTimer() {
         if timerRunning == false {
