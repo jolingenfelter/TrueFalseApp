@@ -46,7 +46,6 @@ class QuizViewController: UIViewController {
     // Timer
     var timer: Timer?
     var time = 10
-    var timerRunning = false
     @IBOutlet weak var timerLabel: UILabel!
     
     required init?(coder aDecoder: NSCoder) {
@@ -90,6 +89,7 @@ class QuizViewController: UIViewController {
     
     func displayQuestion() {
         
+        timerLabel.isHidden = false
         let question = questionsArray[questionIndex]
         questionField.text = question.question
         playAgainButton.isHidden = true
@@ -103,7 +103,6 @@ class QuizViewController: UIViewController {
         progressLabel.isHidden = false
         progressLabel.text = "\(questionIndex + 1)/\(questionsPerRound)"
         resetTimerAndButtons()
-        beginTimer()
     }
     
     func displayScore() {
@@ -127,6 +126,7 @@ class QuizViewController: UIViewController {
     @IBAction func checkAnswer(_ sender: UIButton) {
         // Increment the questions asked counter
         questionsAsked += 1
+        timerLabel.isHidden = true
         
         let selectedQuestion = questionsArray[questionIndex]
         let correctAnswer = selectedQuestion.answer
@@ -197,13 +197,6 @@ class QuizViewController: UIViewController {
     
     // MARK: - Timer & Button Setup
     
-    func beginTimer() {
-        if timerRunning == false {
-            
-            timerRunning = true
-        }
-    }
-    
     func displayCountDown() {
         
         time -= 1
@@ -215,6 +208,7 @@ class QuizViewController: UIViewController {
         
         if time == 0 {
             questionField.text = "Time's up!"
+            timerLabel.isHidden = true
             questionsAsked += 1
             soundCoordinator.playIncorrectAnswerSound()
             disableButtons()
@@ -227,7 +221,6 @@ class QuizViewController: UIViewController {
     func resetTimerAndButtons() {
         time = 10
         timerLabel.text = "\(time)"
-        timerRunning = false
         timerLabel.textColor = UIColor.white
         questionField.textColor = UIColor.white
         enableButtons()
