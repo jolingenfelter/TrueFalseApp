@@ -40,18 +40,39 @@ class QuizViewController: UIViewController {
     var timerRunning = false
     @IBOutlet weak var timerLabel: UILabel!
 
-
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        navigationBarSetup()
+        displayQuestion()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+        soundCoordinator.playGameStartSound()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Start game
-        soundCoordinator.playGameStartSound()
-        displayQuestion()
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    // MARK: - Navigation
+    
+    func navigationBarSetup() {
+        navigationItem.hidesBackButton = true
+        let quitButton = UIBarButtonItem(title: "Quit", style: .done, target: self, action: #selector(quitPressed))
+        navigationItem.rightBarButtonItem = quitButton
+    }
+    
+    func quitPressed() {
+        navigationController?.popToRootViewController(animated: true)
+    }
+    
+    // MARK: - GameSetup
     
     func displayQuestion() {
         
