@@ -47,10 +47,6 @@ class QuizViewController: UIViewController {
     var timer: Timer?
     var time = 10
     @IBOutlet weak var timerLabel: UILabel!
-    
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-    }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
