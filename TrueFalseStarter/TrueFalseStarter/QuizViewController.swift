@@ -63,6 +63,11 @@ class QuizViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
     }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        timer?.invalidate()
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -77,7 +82,7 @@ class QuizViewController: UIViewController {
         navigationItem.rightBarButtonItem = quitButton
     }
     
-    func quitPressed() {
+    @objc func quitPressed() {
         navigationController?.popToRootViewController(animated: true)
     }
     
@@ -193,7 +198,7 @@ class QuizViewController: UIViewController {
     
     // MARK: - Timer & Button Setup
     
-    func displayCountDown() {
+    @objc func displayCountDown() {
         
         time -= 1
         timerLabel.text = "\(time)"
