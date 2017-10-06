@@ -202,11 +202,11 @@ class QuizViewController: UIViewController {
         
         time -= 1
         timerLabel.text = "\(time)"
-        
+
         if time <= 5 {
             timerLabel.textColor = UIColor.red
         }
-        
+
         if time == 0 {
             questionField.text = "Time's up!"
             timerLabel.isHidden = true

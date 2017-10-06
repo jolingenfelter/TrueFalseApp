@@ -10,11 +10,11 @@ import Foundation
 
 class TriviaQuiz: Quiz {
     
-    internal var questionsArray: [Question]
+    var questionsArray: [Question]
     
     init(withNumberOfQuestions: Int) {
         
-        questionsArray = [TriviaQuestion]()
+        questionsArray = [Question]()
         
         do {
             

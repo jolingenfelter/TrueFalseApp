@@ -11,15 +11,15 @@ import GameKit
 
 class MathQuestion: Question {
     
-    private var number: Int
-    private var otherNumber: Int
-    internal var answer: Any
-    internal var question: String
+    private let number: Int
+    private let otherNumber: Int
+    let answer: Any
+    let question: String
     
-    internal var choice01: String
-    internal var choice02: String
-    internal var choice03: String
-    internal var choice04: String
+    let choice01: String
+    let choice02: String
+    let choice03: String
+    let choice04: String
     
     internal lazy var choicesArray: [String] = {
         return [self.choice01, self.choice02, self.choice03, self.choice04].shuffle

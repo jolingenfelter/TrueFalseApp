@@ -10,7 +10,7 @@ import Foundation
 
 class MathQuiz: Quiz {
     
-    internal var questionsArray = [Question]()
+    var questionsArray = [Question]()
     
     init(numberOfQuestions: Int) {
         
