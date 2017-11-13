@@ -215,6 +215,7 @@ class QuizViewController: UIViewController {
             disableButtons()
             loadNextRoundWithDelay(seconds: 1)
             questionField.textColor = UIColor.red
+            questionIndex += 1
         }
         
     }
